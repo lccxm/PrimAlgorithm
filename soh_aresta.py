@@ -15,7 +15,7 @@ class aresta():
     def __lt__(self, other):
         return self.target<other.target
     def __eq__(self, other):
-        return self.target==other.target
+        return self.target == other.target
     def __repr__(self):
         if self.p == None:
             return "<target_vert="+str(self.target)+">"
@@ -58,11 +58,12 @@ def Prim(G, r):
     #for g in G:
     #    Q.put(g)
     while Q:
-        menor = inf
+        menor = inf+1
         for q in Q:
             if q.chave < menor:
                 menor = q.chave
                 index = Q.index(q)
+        print(index, len(Q))
         u = Q.pop(index)
         for v in Adj(u.target):
             for q in Q:
@@ -70,6 +71,7 @@ def Prim(G, r):
                 if q.target == v:
                     v = q
                     break
+            print(v)
             if v in Q and W(u.target, v.target) < v.chave:
                 v.p = u
                 v.chave = W(u.target, v.target)

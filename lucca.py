@@ -1,13 +1,14 @@
 import re
 import os
 import heapq
+from functools import total_ordering
 
 inf = 99999
 
 
 
 
-
+@total_ordering
 class vertice():
     def __init__(self, adj, label, p=None, chave=0):
         super().__init__()
@@ -80,11 +81,8 @@ def MST_prim(grafo, lst):
                 e.chave = 0
     Q = []
     print(Q)
+
     Q = heapq.heapify(lst)
-    print(Q)
-
-
-
 
 
 contents = read_file('tests/prim_10_sparse.dot')
@@ -92,6 +90,7 @@ pattern = r'\d+'
 
 lst = read_graph(contents, pattern)
 grafo = make_graph(lst)
+
 MST_prim(grafo,lst)
 
 

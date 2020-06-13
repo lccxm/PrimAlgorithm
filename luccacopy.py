@@ -48,6 +48,8 @@ def read_file(filename):  # 'prim_10_sparse.dot'
          return f.read()
 
 
+
+
 def read_graph(contents, regex):
         pattern = re.compile(regex)
         matches = pattern.findall(contents)
@@ -108,7 +110,6 @@ def MST_prim(grafo, root):
                 if v.w < u.chave:
                     v.p = u
                     u.chave = v.chave
-                i += 1
     cost = 0
     for v in grafo:
         cost += v.chave

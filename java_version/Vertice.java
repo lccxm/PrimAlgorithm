@@ -7,6 +7,7 @@ public class Vertice implements Comparable<Vertice> {
     public int w;
     public Vertice prev;
     private int INF = 9999;
+    public boolean visitado = false;
 
     public Vertice(int val){
         this.val = val;
