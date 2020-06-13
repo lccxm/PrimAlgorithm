@@ -4,11 +4,14 @@ public class Vertice implements Comparable<Vertice> {
     public static Comparator<Vertice> VerticeComparator;
     public int chave;
     public int val;
+    public int w;
+    public Vertice prev;
     private int INF = 9999;
 
     public Vertice(int val){
         this.val = val;
         this.chave = INF;
+        this.prev = null;
     }
 
     @Override
@@ -16,7 +19,9 @@ public class Vertice implements Comparable<Vertice> {
         return "{" +
             " chave='" + chave + "'" +
             ", val='" + val + "'" +
-            "}\n\t";
+            ", w='" + w + "'" +
+                ", prev='" + prev + "'" +
+            "}";
     }
 
     @Override
