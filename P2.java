@@ -5,12 +5,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class P1 {
+public class P2 {
     private static HashMap<Integer, List<Vertice>> verts;
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        load("prim_10_dense.dot");
+        load("prim_1000_sparse.dot");
         PrimMST();
     }
 
@@ -70,16 +70,16 @@ public class P1 {
 
     public static void PrimMST(){
         List<Vertice> visitados = new ArrayList<>();
-        List<Vertice> lst = new LinkedList<>();
+        PriorityQueue<Vertice> lst = new PriorityQueue<>();
         for (Integer key : verts.keySet()) {
             lst.add(new Vertice(key));
         }
-        Vertice r = extractMin(lst);
+        Vertice r = lst.poll();
         r.chave = 0;
         lst.add(r);
         visitados.add(r);
         while(!lst.isEmpty()){
-            Vertice v = extractMin(lst);
+            Vertice v = lst.poll();
             visitados.add(v);
             List<Vertice> targets = verts.get(v.val);
             for (Vertice a : targets){
@@ -91,14 +91,16 @@ public class P1 {
                     }
                 }
             }
-            for (Vertice t: targets){
-                for (Vertice l: lst){
-                    if (t.val == l.val && t.chave<l.chave){
-                        lst.set(lst.indexOf(l), t);
+            for(Vertice t : targets){
+                for(Vertice l : new ArrayList<>(lst)){
+                    if(t.val == l.val && t.chave < l.chave){
+                        lst.remove(l);
+                        lst.add(t);
                     }
                 }
             }
         }
+
         int total = 0;
         for(Vertice u: visitados){
             total += u.chave;
