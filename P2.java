@@ -1,5 +1,5 @@
-// Grupo: Gustavo Demichei, Lucca Molon e Nicolas Silva
-// Implementa o algoritmo de Prim utilizando uma lista encadeada.
+// Grupo: Gustavo Demicheie  Lucca Molon
+// Implementa o algoritmo de Prim utilizando uma fila de prioridade.
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,14 +7,15 @@ import java.util.*;
 
 public class P2 {
     private static HashMap<Integer, List<Vertice>> verts;
-
+    private static String fileName;
 
     public static void main(String[] args) throws FileNotFoundException {
-        load("prim_1000_sparse.dot");
+        fileName = args[0];
+        load();
         PrimMST();
     }
 
-    public static void load(String fileName) throws FileNotFoundException {
+    public static void load() throws FileNotFoundException {
         verts = new HashMap<>();
         File f = new File(fileName);
         Scanner in = new Scanner(f);
@@ -35,7 +36,6 @@ public class P2 {
                 } else {
                     verts.get(u).add(v1);
                 }
-                //
                 if (!verts.containsKey(v)) {
                     List<Vertice> l = new LinkedList<>();
                     l.add(u1);
@@ -70,32 +70,33 @@ public class P2 {
 
     public static void PrimMST(){
         List<Vertice> visitados = new ArrayList<>();
-        PriorityQueue<Vertice> lst = new PriorityQueue<>();
+        PriorityQueue<Vertice> Q = new PriorityQueue<>();
         for (Integer key : verts.keySet()) {
-            lst.add(new Vertice(key));
+            Q.add(new Vertice(key));
         }
-        Vertice r = lst.poll();
+        Vertice r = Q.poll();
         r.chave = 0;
-        lst.add(r);
+        Q.add(r);
         visitados.add(r);
-        while(!lst.isEmpty()){
-            Vertice v = lst.poll();
+        while(!Q.isEmpty()){
+            Vertice v = Q.poll();
             visitados.add(v);
             List<Vertice> targets = verts.get(v.val);
             for (Vertice a : targets){
                 if(!visitados.contains(a) && !a.visitado) {
-                    if (a.chave > w(v, a) && lst.contains(a)) {
+                    if (a.chave > w(v, a) && Q.contains(a)) {
                         a.chave = w(v, a);
                         a.prev = v;
                         a.visitado = true;
                     }
                 }
             }
+            List<Vertice> l1 = new ArrayList<>(Q);
             for(Vertice t : targets){
-                for(Vertice l : new ArrayList<>(lst)){
+                for(Vertice l : l1){
                     if(t.val == l.val && t.chave < l.chave){
-                        lst.remove(l);
-                        lst.add(t);
+                        Q.remove(l);
+                        Q.add(t);
                     }
                 }
             }
@@ -105,7 +106,6 @@ public class P2 {
         for(Vertice u: visitados){
             total += u.chave;
         }
-
         System.out.println(total);
     }
 }

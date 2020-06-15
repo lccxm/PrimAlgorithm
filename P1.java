@@ -1,20 +1,22 @@
-// Grupo: Gustavo Demichei, Lucca Molon e Nicolas Silva
+// Grupo: Gustavo Demichei e Lucca Molon
 // Implementa o algoritmo de Prim utilizando uma lista encadeada.
-
+import java.util.concurrent.TimeUnit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
 public class P1 {
     private static HashMap<Integer, List<Vertice>> verts;
+    private static String fileName;
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        load("prim_10_dense.dot");
+        fileName = args[0];
+        load();
         PrimMST();
     }
 
-    public static void load(String fileName) throws FileNotFoundException {
+    public static void load() throws FileNotFoundException {
         verts = new HashMap<>();
         File f = new File(fileName);
         Scanner in = new Scanner(f);
@@ -35,7 +37,6 @@ public class P1 {
                 } else {
                     verts.get(u).add(v1);
                 }
-                //
                 if (!verts.containsKey(v)) {
                     List<Vertice> l = new LinkedList<>();
                     l.add(u1);
@@ -91,7 +92,7 @@ public class P1 {
                     }
                 }
             }
-            for (Vertice t: targets){
+             for (Vertice t: targets){
                 for (Vertice l: lst){
                     if (t.val == l.val && t.chave<l.chave){
                         lst.set(lst.indexOf(l), t);
@@ -103,7 +104,6 @@ public class P1 {
         for(Vertice u: visitados){
             total += u.chave;
         }
-
         System.out.println(total);
     }
 }
